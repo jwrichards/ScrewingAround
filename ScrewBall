@@ -2,7 +2,7 @@
 // @name        CookieEater
 // @namespace   _CBTFreeTrialScript
 // @description Eats Cookies.
-// @include     https://qa-www.cbtnuggets.com/admin/usersearch
+// @include     none
 // @version     1
 // @grant       none
 // ==/UserScript==
@@ -32,110 +32,23 @@ function getCookie(cname) {
 } 
 
 function doNextSearch(){
-  document.getElementById("ctl00_PageContentPlaceHolder_name").value = "";
-  document.getElementById("ctl00_PageContentPlaceHolder_line1").value = "";
-  document.getElementById("ctl00_PageContentPlaceHolder_phone").value = "";
-  
-  if(data.name != ""){
-    console.log("Searching Name!");
-    document.getElementById("ctl00_PageContentPlaceHolder_name").value = data.name;
-    data.name = "";
-    console.log("Data: " + JSON.stringify(data));
-    setCookie('trial-data', JSON.stringify(data), 1);
-    doSearch();
-  }
-  else if (data.address != ""){
-    console.log("Searching Address!");
-    document.getElementById("ctl00_PageContentPlaceHolder_line1").value = data.address;
-    data.address = "";
-    console.log("Data: " + JSON.stringify(data));
-    setCookie('trial-data', JSON.stringify(data), 1);
-    doSearch();
-  }  
-  else if (data.name == "" && data.address == "" && data.phone != ""){
-    console.log("Searching Phone!");
-    document.getElementById("ctl00_PageContentPlaceHolder_phone").value = data.phone;
-    data.phone = "";
-    console.log("Data: " + JSON.stringify(data));
-    setCookie('trial-data', JSON.stringify(data), 1);
-    doSearch();
-  }
-  else if (data.name == "" && data.address == "" && data.phone == "" && data.searching != ""){
-    console.log("nibbling: " + data.searching);
-    data.searching = "";
-    setCookie('trial-data', JSON.stringify(data), 1);
-    displayResults();
-  }
-    
+ //have some logic for searching here.
 }
 
 function countSearch(){
-  var elementExists = document.getElementById("ctl00_PageContentPlaceHolder_searchResults");
-  if (elementExists != null){
-    
-     var results = JSON.stringify(document.getElementById("ctl00_PageContentPlaceHolder_searchResults").innerHTML);
-     var total = results.split("@").length - 1;
-     if (pageName != ""){
-       storedResults.name = total;
-       setCookie('trial-results', JSON.stringify(storedResults), 1);
-       console.log("Counted Names:" + total);
-       console.log("Results to date: " + storedResults.name + " " + storedResults.address + " " + storedResults.phone);
-     }
-     else if (pageAddress != ""){
-       storedResults.address = total;
-       setCookie('trial-results', JSON.stringify(storedResults), 1);
-       console.log("Counted Addresses:" + total);
-       console.log("Results to date: " + storedResults.name + " " + storedResults.address + " " + storedResults.phone);
-     }       
-     else if (pagePhone != ""){
-       storedResults.phone = total;
-       setCookie('trial-results', JSON.stringify(storedResults), 1);
-       console.log("Counted Phones:" + total);
-       console.log("Results to date: " + storedResults.name + " " + storedResults.address + " " + storedResults.phone);
-     }
-     console.log("counted stuff");
-    
-  }
-  else{
-     console.log("no stuff to count.");
-  }
-  return;
+// Have some logic for counting up results here.
 }
 
 function displayResults(){
-  var alertText = ""
-  if (storedResults.name > 1){
-    alertText = alertText + "DUPE NAMES:    " + storedResults.name + "\n";
-  }
-  if (storedResults.address > 1){
-    alertText = alertText + "DUPE ADDRESSES:     " + storedResults.address + "\n"; 
-  }
-  if(storedResults.phone > 1){
-    alertText = alertText + "DUPE PHONES:      " + storedResults.phone + "\n";
-  }
-  if(!(storedResults.name > 1 || storedResults.address > 1 || storedResults.phone > 1)){
-    alertText = "No dupes. Proceed.";
-  }
-  alert(alertText);
-  storedResults = { name: 0, phone: 0, address: 0};
-  setCookie('trial-results', JSON.stringify(storedResults), 1);
+// Maybe think about displaying results here.
 }
 
 //Actual Script.
 console.log("starting!");
-var data = JSON.parse(unescape(getCookie('trial-data')));                //fetching cookie data
-var storedResults = JSON.parse(unescape(getCookie('trial-results')));
-console.log("Results to date: " + storedResults);
-var pageName = document.getElementById("ctl00_PageContentPlaceHolder_name").value;
-var pageAddress = document.getElementById("ctl00_PageContentPlaceHolder_line1").value;
-var pagePhone = document.getElementById("ctl00_PageContentPlaceHolder_phone").value;
-console.log ("Fields -- PageName: " + pageName + " pageAddress: " + pageAddress + " pagePhone: "+ pagePhone);
-console.log(data);//acquire cookie data, parse it.
+//fetching cookie data
 if (data.searching == "doit") {                              //determine if we're running search.
   console.log("starting countSearch");
-  countSearch();
-  console.log("Eyeing cookie");
-  doNextSearch();
+    // do it.
 }
 else {
   console.log("No noms =(");
